@@ -337,9 +337,15 @@ class Talisman(object):
                         return False
             return True
 
+        start = datetime.utcnow()
         for i in helpers.timeout_gen(timeout):
             if check_status(juju_env, services):
                 return waiter.status(juju_env)
+            else:
+                if (datetime.utcnow() - start).total_seconds() > 15:
+                    import pprint
+                    pprint.pprint(self.get_status(juju_env))
+                    start = datetime.utcnow()
 
     def wait(self, timeout=300):
         """
