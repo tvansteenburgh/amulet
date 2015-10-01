@@ -344,7 +344,8 @@ class Talisman(object):
             else:
                 if (datetime.utcnow() - start).total_seconds() > 15:
                     import pprint
-                    pprint.pprint(self.get_status(juju_env))
+                    import sys
+                    pprint.pprint(self.get_status(juju_env), stream=sys.stderr)
                     start = datetime.utcnow()
 
     def wait(self, timeout=300):
