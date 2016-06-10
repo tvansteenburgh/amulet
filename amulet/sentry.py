@@ -11,6 +11,7 @@ import pkg_resources
 from . import actions
 from . import waiter
 from . import helpers
+from . import storage
 
 JUJU_VERSION = helpers.JUJU_VERSION
 
@@ -81,6 +82,18 @@ class UnitSentry(Sentry):
         d['service'], d['unit'] = unit.split('/')
         unitsentry.upload_scripts()
         return unitsentry
+
+    def add_storage(self, storage_name, pool=None, count=None, size=None):
+        """Add storage to this unit.
+
+        :param storage_name: Storage name
+        :param pool: Storage pool name
+        :param count: Storage instance count
+        :param size: Storage instance minimum size
+
+        """
+        return storage.add_storage(
+            self.info['unit_name'], storage_name, pool, count, size)
 
     def list_actions(self):
         """Return list of actions defined for this unit.
